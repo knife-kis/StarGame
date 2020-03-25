@@ -11,17 +11,19 @@ import ru.geekbrains.base.BaseScreen;
 public class MenuScreen extends BaseScreen {
 
     private Texture img;
-    private Vector2 pos;
-    private Vector2 v;
-//    private float rotate;
+    private Vector2 posImg;
+    private Vector2 posKursor;
+    private Vector2 tmp;
+    private float speed;
 
     @Override
     public void show() {
         super.show();
         img = new Texture("badlogic.jpg");
-        pos = new Vector2();
-        v = new Vector2(0.3f, 0.3f);
-//        rotate = 0;
+        posImg = new Vector2();
+        posKursor = new Vector2(0, 0);
+        tmp = new Vector2();
+        speed = 100;
     }
 
     @Override
@@ -39,22 +41,24 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        pos.set(screenX, Gdx.graphics.getHeight() - screenY);
+        posKursor.set(screenX, Gdx.graphics.getHeight() - screenY);
         return false;
     }
 
     private void update(float delta) {
-        pos.add(v);
-//        rotate += 1;
+        tmp.set(posKursor).sub(posImg).nor().scl(speed);
+        if (posImg.dst(posKursor) > speed * delta){
+            posImg.mulAdd(tmp, delta);
+        } else {
+            posImg.set(posKursor);
+        }
     }
 
     private void draw() {
         Gdx.gl.glClearColor(0.5f, 0.7f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(img, 0, 0);
-        batch.draw(img, pos.x, pos.y);
-//        batch.draw(new TextureRegion(img), pos.x, pos.y, pos.x, pos.y, 250, 250, 1, 1, rotate);
+        batch.draw(img, posImg.x, posImg.y);
         batch.end();
     }
 
