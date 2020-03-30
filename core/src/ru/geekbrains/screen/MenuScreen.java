@@ -9,19 +9,24 @@ import ru.geekbrains.base.BaseScreen;
 import ru.geekbrains.exception.GameException;
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.sprites.Background;
+import ru.geekbrains.sprites.Logo;
 
 public class MenuScreen extends BaseScreen {
 
     private Texture bg;
+    private Texture logotip;
     private Background background;
     private Vector2 pos;
+    private Logo logo;
 
     @Override
     public void show() {
         super.show();
         bg = new Texture("textures/bg.png");
+        logotip = new Texture("badlogic.jpg");
         try {
             background = new Background(bg);
+            logo = new Logo(logotip);
         } catch (GameException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -45,6 +50,7 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void resize(Rect worldBounds) {
         background.resize(worldBounds);
+        logo.resize(worldBounds);
     }
 
     @Override
@@ -54,6 +60,7 @@ public class MenuScreen extends BaseScreen {
     }
 
     private void update(float delta) {
+        logo.update(delta);
     }
 
     private void draw() {
@@ -61,7 +68,7 @@ public class MenuScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
+        logo.draw(batch);
         batch.end();
     }
-
 }

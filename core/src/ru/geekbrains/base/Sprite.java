@@ -13,6 +13,7 @@ public class Sprite extends Rect {
     protected float scale = 1f;
     protected TextureRegion[] regions;
     protected int frame;
+    protected Vector2 dst;
 
     public Sprite(TextureRegion region) throws GameException {
         if (region == null) {
@@ -20,6 +21,7 @@ public class Sprite extends Rect {
         }
         regions = new TextureRegion[1];
         regions[0] = region;
+        dst = new Vector2();
     }
 
     public void setHeightProportion(float height) {
@@ -29,6 +31,7 @@ public class Sprite extends Rect {
     }
 
     public void update(float delta) {
+
     }
 
     public void draw(SpriteBatch batch) {
