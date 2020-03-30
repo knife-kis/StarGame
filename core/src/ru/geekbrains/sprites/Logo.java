@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.base.Sprite;
 import ru.geekbrains.exception.GameException;
@@ -16,11 +17,16 @@ public class Logo extends Sprite {
 
     @Override
     public void update(float delta) {
-
-        if (Gdx.input.justTouched()) {
-            dst.set(Gdx.input.getX(), 600 - Gdx.input.getY());
+        if (Gdx.input.justTouched()){
+            dst.set(Gdx.input.getX(), Gdx.input.getY());
         }
-        pos.mulAdd(dst.cpy().sub(pos).nor(), delta);
+        v.set(dst).sub(pos).nor();
+        if (pos.dst(dst) > delta) {
+            pos.mulAdd(v, delta);
+        } else {
+            pos.set(dst);
+        }
+
     }
 
     @Override
@@ -32,6 +38,5 @@ public class Logo extends Sprite {
     public void resize(Rect worldBounds) {
         setHeightProportion(0.1f);
         pos.set(worldBounds.pos);
-        pos.set(-0.33f,-0.5f);
     }
 }

@@ -14,6 +14,7 @@ public class Sprite extends Rect {
     protected TextureRegion[] regions;
     protected int frame;
     protected Vector2 dst;
+    protected Vector2 v;
 
     public Sprite(TextureRegion region) throws GameException {
         if (region == null) {
@@ -22,6 +23,7 @@ public class Sprite extends Rect {
         regions = new TextureRegion[1];
         regions[0] = region;
         dst = new Vector2();
+        v = new Vector2();
     }
 
     public void setHeightProportion(float height) {
