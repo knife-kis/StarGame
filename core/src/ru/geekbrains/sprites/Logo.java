@@ -11,22 +11,38 @@ import ru.geekbrains.exception.GameException;
 import ru.geekbrains.math.Rect;
 
 public class Logo extends Sprite {
+
+    private static final float V_LEN = 0.01f;
+
+    private Vector2 touch;
+    private Vector2 v;
+    private Vector2 tmp;
+
     public Logo(Texture texture) throws GameException {
         super(new TextureRegion(texture));
+        touch = new Vector2();
+        v = new Vector2();
+        tmp = new Vector2();
+
+    }
+
+    @Override
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        this.touch = touch;
+        v.set(touch.cpy().sub(pos)).setLength(V_LEN);
+        
+        return false;
     }
 
     @Override
     public void update(float delta) {
-        if (Gdx.input.justTouched()){
-            dst.set(Gdx.input.getX(), Gdx.input.getY());
-        }
-        v.set(dst).sub(pos).nor();
-        if (pos.dst(dst) > delta) {
-            pos.mulAdd(v, delta);
-        } else {
-            pos.set(dst);
-        }
-
+            tmp.set(touch);
+            if(tmp.sub(pos).len() > V_LEN){
+                pos.add(v);
+            } else{
+                pos.set(touch);
+                v.setZero();
+            }
     }
 
     @Override
@@ -37,6 +53,5 @@ public class Logo extends Sprite {
     @Override
     public void resize(Rect worldBounds) {
         setHeightProportion(0.1f);
-        pos.set(worldBounds.pos);
     }
 }

@@ -16,7 +16,6 @@ public class MenuScreen extends BaseScreen {
     private Texture bg;
     private Texture logotip;
     private Background background;
-    private Vector2 pos;
     private Logo logo;
 
     @Override
@@ -31,7 +30,6 @@ public class MenuScreen extends BaseScreen {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        pos = new Vector2();
     }
 
     @Override
@@ -44,6 +42,7 @@ public class MenuScreen extends BaseScreen {
     public void dispose() {
         batch.dispose();
         bg.dispose();
+        logotip.dispose();
         super.dispose();
     }
 
@@ -55,7 +54,8 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        pos.set(touch);
+        logo.touchDown(touch, pointer, button);
+
         return false;
     }
 
